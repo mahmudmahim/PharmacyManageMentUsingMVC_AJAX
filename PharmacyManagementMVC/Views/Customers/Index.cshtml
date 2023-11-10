@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PharmacyManagementMVC.Models.Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="display-5 text-center mt-2">Customer Medicine Purchasing Info</h2>
+
+<div class="d-flex justify-content-end">
+    <a href="@Url.Action("Create","Customers")" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus"></i>Add Customer</a>
+</div>
+
+<div>
+    @foreach (var customer in Model)
+    {
+        <div class="card mb-2 mt-2">
+            <div class="card-header d-flex justify-content-between">
+                <div>
+                    <img src="@customer.Picture" width="32" height="32" style="border-radius:8px" />
+
+                    <label class="me-2">
+                        <b>Customer:</b>
+                        @Html.DisplayFor(x => customer.CustomerName)
+                    </label>
+
+                    <label class="me-2">
+                        <b>Age:</b>
+                        @Html.DisplayFor(x => customer.Age)
+                    </label>
+
+                    <label class="me-2">
+                        <b>Purchase Date:</b>
+                        @Html.DisplayFor(x => customer.PurchaseDate.Date )
+                    </label>
+
+                    <label class="me-2">
+                        <b>Visited Before:</b>
+                        @Html.DisplayFor(x => customer.VisitedBefore)
+                    </label>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <a href="@Url.Action("Edit", "Customers", new {id=customer.CustomerId})" id="btnEdit" class="btn btn-outline-success"><i class="fa fa-edit"></i></a>
+
+                    <a href="@Url.Action("Delete", "Customers", new {id=customer.CustomerId})" id="btnDelete" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Medicine Id</th>
+                            <th>Medicine Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in customer.PurchasingEntries)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(x=>item.Medicine.MedicineId)</td>
+                                <td>@Html.DisplayFor(x=>item.Medicine.MedicineName)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

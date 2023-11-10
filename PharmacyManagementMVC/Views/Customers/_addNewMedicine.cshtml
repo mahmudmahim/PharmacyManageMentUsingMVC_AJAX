@@ -1,0 +1,11 @@
+﻿@model PharmacyManagementMVC.Models.Medicine
+
+<div class="row mb-2 mt-2">
+    <div class="col-10">
+        @Html.DropDownListFor(x => x.MedicineId, ViewBag.medicines as SelectList, "--Select Medicines--", new { @class = "form-control mt-4" })
+    </div>
+    <div class="col-2">
+        <a href="#" id="btnDeleteMdcn" class="btn btn-outline-danger mt-2" style="margin-right:2px"><i class="fa fa-trash"></i></a>
+    </div>
+</div>
+

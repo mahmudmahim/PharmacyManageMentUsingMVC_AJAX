@@ -1,0 +1,125 @@
+﻿@model PharmacyManagementMVC.Models.ViewModel.CustomerVM
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    OnComplete = "clearAll",
+    UpdateTargetId = "msg"
+}))
+{
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(x => x.CustomerId);
+
+    <div class="row">
+        <div class="col-6">
+            <h4 class="bg-dark-subtle text-center mt-2">Edit Purchasing Information</h4>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.CustomerName, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.CustomerName, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.CustomerName, "", htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.Age, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.Age, "", htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.PurchaseDate, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.EditorFor(x => x.PurchaseDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.PurchaseDate, "", htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.PictureFile, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.PictureFile, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.PictureFile, "", htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.VisitedBefore, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.CheckBoxFor(x => x.VisitedBefore)
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.VisitedBefore, "", htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <h4 class="bg-dark-subtle text-center mt-2">Select Medicines</h4>
+            <div class="d-flex justify-content-end">
+                <a href="#" id="btnPlus" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>Add More</a>
+            </div>
+            <div id="medContainer">
+                @foreach (var item in Model.MedicineList)
+                {
+                    @Html.Action("AddMedicine", "Customers", new { id = item })
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="d-flex justify-content-center">
+        <input type="submit" value="Update" class="btn btn-primary btn-lg" />
+    </div>
+
+    <div class="row mb-2">
+        <div id="msg">
+            @*<h5 class="text-success fw-bold">Operation Data Inserted SuccessFully Done!!</h5>*@
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back To List", "Index", new { }, new { @class = "btn btn-warning text-light btn-sm" })
+</div>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+            $("#form0").trigger("reset");
+            //showMsg();
+        }
+
+        //function showMsg() {
+        //    msgHide.style.display = "block";
+        //}
+
+        //var msgHide = document.getElementById("msg");
+        //msgHide.style.display = "none";
+    </script>
+
+}
+
+

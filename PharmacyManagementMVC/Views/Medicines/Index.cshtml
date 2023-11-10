@@ -1,0 +1,38 @@
+﻿@model IEnumerable<PharmacyManagementMVC.Models.Medicine>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="display-5 text-center mt-2">Medicine Info</h2>
+
+<div class="d-flex justify-content-end">
+    <a href="@Url.Action("Create","Medicines")" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus"></i>Add Medicine</a>
+</div>
+
+<table class="table table-bordered table-striped table-hover table-responsive-sm mt-2">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MedicineName)
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicineName)
+            </td>
+            <td>
+                <div class="d-flex justify-content-end">
+                    <a href="@Url.Action("Edit","Medicines", new {id=item.MedicineId})" id="btnEdit" class="btn btn-outline-success me-2"><i class="fa fa-edit"></i></a>
+
+                    <a href="@Url.Action("Delete", "Medicines", new {id=item.MedicineId})" id="btnDelete" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

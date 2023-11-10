@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PharmacyShopDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="PurchaseDate" Type="date" Nullable="false" />
+          <Property Name="Picture" Type="nvarchar(max)" />
+          <Property Name="VisitedBefore" Type="bit" />
+        </EntityType>
+        <EntityType Name="Medicine">
+          <Key>
+            <PropertyRef Name="MedicineId" />
+          </Key>
+          <Property Name="MedicineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicineName" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchasingEntry">
+          <Key>
+            <PropertyRef Name="PurchasingEntryId" />
+          </Key>
+          <Property Name="PurchasingEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="MedicineId" Type="int" />
+        </EntityType>
+        <Association Name="FK__Purchasin__Custo__3B75D760">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="PurchasingEntry" Type="Self.PurchasingEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="PurchasingEntry">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchasin__Medic__3C69FB99">
+          <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+          <End Role="PurchasingEntry" Type="Self.PurchasingEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicine">
+              <PropertyRef Name="MedicineId" />
+            </Principal>
+            <Dependent Role="PurchasingEntry">
+              <PropertyRef Name="MedicineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PharmacyShopDbModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medicine" EntityType="Self.Medicine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchasingEntry" EntityType="Self.PurchasingEntry" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Purchasin__Custo__3B75D760" Association="Self.FK__Purchasin__Custo__3B75D760">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="PurchasingEntry" EntitySet="PurchasingEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchasin__Medic__3C69FB99" Association="Self.FK__Purchasin__Medic__3C69FB99">
+            <End Role="Medicine" EntitySet="Medicine" />
+            <End Role="PurchasingEntry" EntitySet="PurchasingEntry" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PharmacyShopDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitedBefore" Type="Boolean" />
+          <NavigationProperty Name="PurchasingEntries" Relationship="Self.FK__Purchasin__Custo__3B75D760" FromRole="Customer" ToRole="PurchasingEntry" />
+        </EntityType>
+        <EntityType Name="Medicine">
+          <Key>
+            <PropertyRef Name="MedicineId" />
+          </Key>
+          <Property Name="MedicineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicineName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PurchasingEntries" Relationship="Self.FK__Purchasin__Medic__3C69FB99" FromRole="Medicine" ToRole="PurchasingEntry" />
+        </EntityType>
+        <EntityType Name="PurchasingEntry">
+          <Key>
+            <PropertyRef Name="PurchasingEntryId" />
+          </Key>
+          <Property Name="PurchasingEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="MedicineId" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Purchasin__Custo__3B75D760" FromRole="PurchasingEntry" ToRole="Customer" />
+          <NavigationProperty Name="Medicine" Relationship="Self.FK__Purchasin__Medic__3C69FB99" FromRole="PurchasingEntry" ToRole="Medicine" />
+        </EntityType>
+        <Association Name="FK__Purchasin__Custo__3B75D760">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="PurchasingEntry" Type="Self.PurchasingEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="PurchasingEntry">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchasin__Medic__3C69FB99">
+          <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+          <End Role="PurchasingEntry" Type="Self.PurchasingEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicine">
+              <PropertyRef Name="MedicineId" />
+            </Principal>
+            <Dependent Role="PurchasingEntry">
+              <PropertyRef Name="MedicineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PharmacyShopDb" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Medicines" EntityType="Self.Medicine" />
+          <EntitySet Name="PurchasingEntries" EntityType="Self.PurchasingEntry" />
+          <AssociationSet Name="FK__Purchasin__Custo__3B75D760" Association="Self.FK__Purchasin__Custo__3B75D760">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="PurchasingEntry" EntitySet="PurchasingEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchasin__Medic__3C69FB99" Association="Self.FK__Purchasin__Medic__3C69FB99">
+            <End Role="Medicine" EntitySet="Medicines" />
+            <End Role="PurchasingEntry" EntitySet="PurchasingEntries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PharmacyShopDbModelStoreContainer" CdmEntityContainer="PharmacyShopDb">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="PharmacyShopDbModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="VisitedBefore" ColumnName="VisitedBefore" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medicines">
+            <EntityTypeMapping TypeName="PharmacyShopDbModel.Medicine">
+              <MappingFragment StoreEntitySet="Medicine">
+                <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
+                <ScalarProperty Name="MedicineName" ColumnName="MedicineName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchasingEntries">
+            <EntityTypeMapping TypeName="PharmacyShopDbModel.PurchasingEntry">
+              <MappingFragment StoreEntitySet="PurchasingEntry">
+                <ScalarProperty Name="PurchasingEntryId" ColumnName="PurchasingEntryId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

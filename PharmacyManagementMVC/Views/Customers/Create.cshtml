@@ -1,0 +1,121 @@
+﻿@model PharmacyManagementMVC.Models.ViewModel.CustomerVM
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    OnComplete = "clearAll",
+    UpdateTargetId = "msg"
+}))
+{
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header bg-dark-subtle mt-2">
+                    <h4 class="text-center mt-2">Add New Customer</h4>
+                </div>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="row mb-2 mt-2">
+                @Html.LabelFor(x => x.CustomerName, htmlAttributes: new { @class = "col-fomr-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.CustomerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.Age, new { @class = "form-control" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.PurchaseDate, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.PurchaseDate, new { @class = "form-control", type = "date" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.PurchaseDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.PictureFile, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.PictureFile, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.PictureFile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.VisitedBefore, htmlAttributes: new { @class = "col-form-label col-2" })
+                <div class="col-8">
+                    @Html.CheckBoxFor(x => x.VisitedBefore)
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.VisitedBefore, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header bg-dark-subtle mt-2">
+                    <h4 class="text-center mt-2">Select Medicines</h4>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <a href="" id="btnPlus" class="btn btn-primary btn-sm mt-2"><i class="fa fa-plus"></i>Add More</a>
+            </div>
+            <div id="medContainer">
+                @Html.Action("AddMedicine", "Customers")
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+    <div class="row mb-2">
+        <div id="msg">
+
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back To List", "Index", new { }, new { @class = "btn btn-warning" })
+</div>
+
+@section scripts{
+
+    @*<script src="~/Scripts/bootstrap.bundle.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery-3.7.1.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+
+    <script>
+          $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+            $("#form0").trigger("reset");
+        }
+
+        @*function uploadSuccess(result) {
+            @Html.Partial("_success");
+            $('#msg').html(result);
+        }*@
+    </script>
+}
